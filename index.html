@@ -1,5 +1,468 @@
 <!doctype html><html lang="pt-BR"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Setorial Brasil · Quem contratar, sem apostar no escuro</title>
-<meta name="description" content="Análise independente de empresas por setor. Reputação no Google, situação no Reclame Aqui, CNPJ em registro público e o que cada empresa declara antes de você contratar.">
-</head><body><div id="root"></div><script type="module" src="/src/main.tsx"></script></body></html>
+<meta name="description" content="Analise independente de empresas por setor. Reputacao no Google, situacao no Reclame Aqui, CNPJ em registro publico e o que cada empresa declara antes de voce contratar.">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+:root{
+ --bg:#0b0f14; --painel:#121821; --linha:#1e2733; --texto:#dbe3ec; --fraco:#7b8a1;
+ --ouro:#d9a441; --prata:#aeb9c6; --bronze:#b0764a; --vermelho:#e0524f; --verde:#3fa96b; --ambar:#e0a83c;
+}
+body{margin:0;background:var(--bg);color:var(--texto);font-family:'Inter',system-ui,sans-serif;line-height:1.6}
+.wrap{max-width:1120px;margin:0 auto;padding:0 22px 80px}
+mono,.mono{font-family:'JetBrains Mono',monospace}
+
+/* CAPA */
+.capa{border-bottom:1px solid var(--linha);background:
+  repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(255,255,255,.012) 2px,rgba(255,255,255,.012) 4px),
+  radial-gradient(900px 300px at 20% -30%,rgba(217,164,65,.13),transparent);}
+.capa .wrap{padding-top:30px;padding-bottom:26px}
+.tarja{display:flex;justify-content:space-between;align-items:center;font-family:'JetBrains Mono',monospace;
+ font-size:11px;letter-spacing:.16em;color:var(--fraco);border-bottom:1px solid var(--linha);padding-bottom:9px;margin-bottom:18px}
+.tarja .conf{color:var(--ambar)}
+h1{font-family:'Oswald',sans-serif;font-size:47px;line-height:1.02;margin:0 0 6px;letter-spacing:.012em;text-transform:uppercase}
+h1 em{font-style:normal;color:var(--ouro)}
+.linhafina{color:var(--fraco);font-size:14.5px;max-width:640px}
+.chips{display:flex;gap:9px;flex-wrap:wrap;margin-top:18px}
+.chip{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--fraco);
+ border:1px solid var(--linha);border-radius:3px;padding:5px 10px;background:rgba(255,255,255,.02)}
+.chip b{color:var(--texto)}
+
+h2{font-family:'Oswald',sans-serif;font-size:22px;letter-spacing:.06em;text-transform:uppercase;
+ margin:46px 0 4px;display:flex;align-items:center;gap:12px}
+h2:after{content:'';flex:1;height:1px;background:var(--linha)}
+.h2sub{color:var(--fraco);font-size:13px;margin:0 0 18px}
+
+/* ALERTA */
+.alerta{border:1px solid #40201f;background:linear-gradient(180deg,rgba(224,82,79,.09),rgba(224,82,79,.02));border-radius:6px;padding:22px 24px}
+.carimbo{display:inline-block;border:2px solid var(--vermelho);color:var(--vermelho);font-family:'Oswald',sans-serif;
+ font-size:13px;letter-spacing:.2em;padding:5px 13px;transform:rotate(-2.2deg);margin-bottom:14px}
+.risco{border-left:2px solid var(--vermelho);padding:2px 0 2px 17px;margin:20px 0}
+.risco:last-child{margin-bottom:0}
+.rnome{font-family:'Oswald',sans-serif;font-size:19px;letter-spacing:.03em;display:flex;align-items:baseline;gap:11px}
+.rnota{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--vermelho);border:1px solid #40201f;padding:1px 7px;border-radius:3px}
+.risco ul{margin:9px 0 0;padding-left:17px;font-size:13.5px;color:#c3cedb}
+.risco li{margin-bottom:5px}
+.risco li strong{color:#f0d3d2}
+.rodape-risco{font-size:12.5px;color:var(--fraco);margin:9px 0 0;font-style:italic}
+
+/* PODIO */
+.podio{display:grid;grid-template-columns:1fr 1.16fr 1fr;gap:14px;align-items:end;margin-top:8px}
+.pod{background:var(--painel);border:1px solid var(--linha);border-radius:6px;padding:20px 18px;position:relative;overflow:hidden}
+.pod:before{content:'';position:absolute;inset:0 0 auto 0;height:3px}
+.pod.p1:before{background:var(--ouro)} .pod.p2:before{background:var(--prata)} .pod.p3:before{background:var(--bronze)}
+.pod.p1{padding-top:28px;padding-bottom:26px;border-color:#3a2f18}
+.medalha{font-family:'Oswald',sans-serif;font-size:12px;letter-spacing:.19em}
+.pod.p1 .medalha{color:var(--ouro)} .pod.p2 .medalha{color:var(--prata)} .pod.p3 .medalha{color:var(--bronze)}
+.pod .emp{font-family:'Oswald',sans-serif;font-size:23px;margin:7px 0 3px;letter-spacing:.02em}
+.pod.p1 .emp{font-size:27px}
+.pod .loc{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fraco);margin-bottom:14px}
+.pod .pts{font-family:'Oswald',sans-serif;font-size:42px;line-height:1}
+.pod.p1 .pts{font-size:54px;color:var(--ouro)}
+.pod .de{font-family:'JetBrains Mono',monospace;font-size:10px;color:var(--fraco);letter-spacing:.14em}
+
+/* FICHA */
+.ficha{background:var(--painel);border:1px solid var(--linha);border-radius:6px;margin-bottom:12px;display:flex}
+.ficha .num{width:56px;flex:0 0 56px;border-right:1px solid var(--linha);display:flex;align-items:center;justify-content:center;
+ font-family:'Oswald',sans-serif;font-size:26px;color:var(--fraco)}
+.ficha .in{flex:1;padding:16px 20px}
+.cab{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;align-items:baseline}
+.emp2{font-family:'Oswald',sans-serif;font-size:21px;letter-spacing:.02em;margin:0}
+.loc2{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--fraco);margin-top:3px}
+.pts2{font-family:'Oswald',sans-serif;font-size:30px}
+.fontes{display:flex;gap:9px;flex-wrap:wrap;margin:13px 0 11px}
+.fonte{font-family:'JetBrains Mono',monospace;font-size:11.5px;border:1px solid var(--linha);border-radius:3px;padding:5px 10px;color:var(--fraco)}
+.fonte b{color:var(--texto)}
+.fonte.g{border-color:#1e3a2a;background:rgba(63,169,107,.07)}
+.fonte.r{border-color:#3d1f1e;background:rgba(224,82,79,.07);color:#e6a9a7}
+.fonte.n{opacity:.55}
+.ev{display:flex;flex-wrap:wrap;gap:6px}
+.e{font-size:12px;padding:3px 9px;border-radius:3px;border:1px solid var(--linha);color:var(--fraco)}
+.e.s{border-color:#1e3a2a;color:#79c79b;background:rgba(63,169,107,.06)}
+.e.n{border-color:#3d1f1e;color:#e08d8a;background:rgba(224,82,79,.06)}
+.e.a{border-color:#3c3018;color:#dbb264;background:rgba(224,168,60,.06)}
+
+/* TABELA */
+table{width:100%;border-collapse:collapse;font-family:'JetBrains Mono',monospace;font-size:12px;
+ background:var(--painel);border:1px solid var(--linha);border-radius:6px;overflow:hidden}
+th{background:#0e141c;color:var(--fraco);text-align:left;padding:11px 9px;font-size:10.5px;letter-spacing:.11em;
+ text-transform:uppercase;border-bottom:1px solid var(--linha)}
+td{padding:10px 9px;border-bottom:1px solid rgba(30,39,51,.55)}
+tr:last-child td{border-bottom:none}
+td.c{text-align:center}
+tr.destaque td{background:rgba(217,164,65,.07)}
+tr.destaque td:first-child{color:var(--ouro)}
+.sim{color:var(--verde)} .nao{color:var(--vermelho)} .vazio{color:#4a5666}
+
+/* METODO */
+.metodo{background:var(--painel);border:1px solid var(--linha);border-radius:6px;padding:20px 24px}
+.metodo table{border:none;background:none}
+.metodo td{border-bottom:1px solid rgba(30,39,51,.5);font-family:'Inter',sans-serif;font-size:13.5px;padding:9px 0}
+.metodo td:last-child{text-align:right;font-family:'Oswald',sans-serif;font-size:17px;color:var(--ouro);width:60px}
+.nota-rodape{margin-top:38px;padding-top:16px;border-top:1px solid var(--linha);color:var(--fraco);font-size:12.5px}
+.fora{background:var(--painel);border:1px solid var(--linha);border-radius:6px;padding:18px 24px;font-size:13.5px;color:#b8c4d2}
+.fora li{margin-bottom:8px}
+.fora strong{color:var(--texto)}
+@media(max-width:820px){.podio{grid-template-columns:1fr}h1{font-size:34px}}
+
+.topobar{border-bottom:1px solid var(--linha)}
+.topobar .in{max-width:1120px;margin:0 auto;padding:12px 22px;display:flex;justify-content:space-between;
+ font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.16em;color:var(--fraco)}
+.topobar a{color:inherit;text-decoration:none}
+.busca{width:100%;max-width:640px;background:var(--painel);border:1px solid var(--linha);border-radius:5px;
+ padding:15px 18px;font-size:16px;color:var(--texto);font-family:'Inter',sans-serif;outline:none;margin-top:26px}
+.busca:focus{border-color:#3a4a5e}
+.atalhos{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+.atalho{font-family:'JetBrains Mono',monospace;font-size:11px;letter-spacing:.08em;color:var(--fraco);
+ border:1px solid var(--linha);background:rgba(255,255,255,.02);border-radius:3px;padding:5px 10px;cursor:pointer}
+.atalho:hover{color:var(--texto)}
+.secao{font-family:'Oswald',sans-serif;font-size:20px;letter-spacing:.06em;text-transform:uppercase;
+ margin:42px 0 14px;display:flex;align-items:center;gap:12px}
+.secao:after{content:'';flex:1;height:1px;background:var(--linha)}
+.grid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(330px,1fr))}
+.card{background:var(--painel);border:1px solid var(--linha);border-radius:6px;padding:20px;text-decoration:none;
+ color:inherit;display:block;transition:border-color .15s}
+.card:hover{border-color:#3a4a5e}
+.cardtopo{display:flex;justify-content:space-between;align-items:flex-start;gap:12px}
+.card h3{font-family:'Oswald',sans-serif;font-size:21px;margin:0;letter-spacing:.02em}
+.card p{font-size:13.5px;color:var(--fraco);margin:8px 0 0}
+.badge{font-family:'JetBrains Mono',monospace;font-size:10px;letter-spacing:.12em;padding:4px 8px;border-radius:3px;
+ border:1px solid var(--linha);color:var(--fraco);white-space:nowrap}
+.badge.ok{border-color:#1e3a2a;color:#79c79b;background:rgba(63,169,107,.06)}
+.eixos{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));margin-top:18px}
+.eixo{border:1px solid var(--linha);border-radius:6px;padding:16px}
+.eixotopo{display:flex;justify-content:space-between;align-items:baseline}
+.eixotopo span{font-family:'Oswald',sans-serif;font-size:19px;color:var(--ouro)}
+.eixo p{font-size:12.5px;color:var(--fraco);margin:4px 0 0}
+.voltar{font-family:'JetBrains Mono',monospace;font-size:12px;color:var(--ouro);text-decoration:none}
+.rodapesite{max-width:1120px;margin:0 auto;padding:0 22px 60px}
+.rodapesite .in{border-top:1px solid var(--linha);padding-top:18px;font-size:12.5px;color:var(--fraco)}
+</style></head><body>
+
+<div class="topobar"><div class="in">
+<a href="#/">SETORIAL BRASIL</a><span>ANALISE INDEPENDENTE DE SERVICOS</span><span style="color:var(--ambar)">◆ BRASIL</span>
+</div></div>
+
+<div id="home" class="pagina">
+<div class="capa"><div class="wrap">
+<h1>Quem contratar,<br><em>sem apostar no escuro</em></h1>
+<p class="linhafina">Analisamos empresas setor por setor e publicamos a conta aberta: o que cada uma promete, o que da para verificar no registro publico e como ela responde quando algo da errado.</p>
+<input id="q" class="busca" placeholder="Que servico voce precisa contratar?" autocomplete="off">
+<div class="atalhos">
+<span class="atalho" onclick="setq('planilha')">PLANILHA</span>
+<span class="atalho" onclick="setq('site')">SITE</span>
+<span class="atalho" onclick="setq('trafego')">TRAFEGO</span>
+<span class="atalho" onclick="setq('contabilidade')">CONTABILIDADE</span>
+<span class="atalho" onclick="setq('mudanca')">MUDANCA</span>
+<span class="atalho" onclick="setq('solar')">SOLAR</span>
+</div>
+<div class="chips" style="margin-top:24px">
+<span class="chip">SETORES <b>6</b></span><span class="chip">DOSSIES PUBLICADOS <b>1</b></span>
+<span class="chip">EMPRESAS RASTREADAS <b>25</b></span>
+</div>
+</div></div>
+<div class="wrap" id="lista"><h2 class="secao">Tecnologia e dados</h2><div class="grid"><a class="card" href="#/br/planilha-sob-medida" data-busca="planilha sob medida tecnologia e dados quem desenvolve planilha personalizada em excel e google sheets sob encomenda. das 25 empresas rastreadas, apenas tres tem reputacao publica no google e metade nao publica cnpj.">
+<div class="cardtopo"><h3>Planilha sob medida</h3><span class="badge ok">25 EMPRESAS</span></div><p>Quem desenvolve planilha personalizada em Excel e Google Sheets sob encomenda. Das 25 empresas rastreadas, apenas tres tem reputacao publica no Google e metade nao publica CNPJ.</p></a><a class="card" href="#/br/criacao-de-site-e-loja-virtual" data-busca="criacao de site e loja virtual tecnologia e dados quem desenvolve site institucional, landing page e e-commerce sob encomenda. milhares de fornecedores, do freelancer a agencia, e quase nenhuma transparencia de preco e prazo.">
+<div class="cardtopo"><h3>Criacao de site e loja virtual</h3><span class="badge">EM ANALISE</span></div><p>Quem desenvolve site institucional, landing page e e-commerce sob encomenda. Milhares de fornecedores, do freelancer a agencia, e quase nenhuma transparencia de preco e prazo.</p></a></div><h2 class="secao">Marketing</h2><div class="grid"><a class="card" href="#/br/agencia-de-trafego-pago" data-busca="agencia de trafego pago marketing quem gerencia anuncio no google e nas redes por mensalidade. setor onde a promessa e facil de fazer e dificil de verificar, e onde o contrato costuma esconder de quem e a conta de anuncio.">
+<div class="cardtopo"><h3>Agencia de trafego pago</h3><span class="badge">EM ANALISE</span></div><p>Quem gerencia anuncio no Google e nas redes por mensalidade. Setor onde a promessa e facil de fazer e dificil de verificar, e onde o contrato costuma esconder de quem e a conta de anuncio.</p></a></div><h2 class="secao">Financeiro e juridico</h2><div class="grid"><a class="card" href="#/br/contabilidade-online" data-busca="contabilidade online financeiro e juridico escritorios que atendem a distancia por mensalidade. decisao que trava o empresario por anos, com multa e imposto em jogo, e onde a diferenca entre planos raramente esta clara.">
+<div class="cardtopo"><h3>Contabilidade online</h3><span class="badge">EM ANALISE</span></div><p>Escritorios que atendem a distancia por mensalidade. Decisao que trava o empresario por anos, com multa e imposto em jogo, e onde a diferenca entre planos raramente esta clara.</p></a></div><h2 class="secao">Casa e reforma</h2><div class="grid"><a class="card" href="#/br/empresa-de-mudanca" data-busca="empresa de mudanca residencial casa e reforma quem transporta a casa inteira de um endereco para outro. bem de alto valor na mao de terceiro, e seguro que quase ninguem explica antes de fechar.">
+<div class="cardtopo"><h3>Empresa de mudanca residencial</h3><span class="badge">EM ANALISE</span></div><p>Quem transporta a casa inteira de um endereco para outro. Bem de alto valor na mao de terceiro, e seguro que quase ninguem explica antes de fechar.</p></a><a class="card" href="#/br/energia-solar-residencial" data-busca="energia solar residencial casa e reforma quem projeta e instala painel solar em casa. investimento acima de r$ 20 mil, com retorno dificil de conferir e garantia que varia de 1 a 25 anos conforme o componente.">
+<div class="cardtopo"><h3>Energia solar residencial</h3><span class="badge">EM ANALISE</span></div><p>Quem projeta e instala painel solar em casa. Investimento acima de R$ 20 mil, com retorno dificil de conferir e garantia que varia de 1 a 25 anos conforme o componente.</p></a></div>
+<h2 class="secao">Como avaliamos</h2>
+<p style="color:var(--fraco);font-size:13px;margin:0">A nota vai de 0 a 100 e e a soma de seis eixos, com peso declarado. Nenhum deles mede tamanho de empresa ou beleza de site.</p>
+<div class="eixos"><div class="eixo"><div class="eixotopo"><strong>Reputacao verificavel</strong><span>30</span></div><p>nota e volume de avaliacoes no Google, resposta e solucao no Reclame Aqui</p></div><div class="eixo"><div class="eixotopo"><strong>Solidez</strong><span>22</span></div><p>CNPJ ativo, tempo de operacao, endereco e responsavel identificado</p></div><div class="eixo"><div class="eixotopo"><strong>Protecao do comprador</strong><span>20</span></div><p>escopo por escrito, aprovacao antes de pagar tudo, garantia de ajuste</p></div><div class="eixo"><div class="eixotopo"><strong>Voce fica dono</strong><span>13</span></div><p>o que voce recebe e seu, sem senha e sem trava</p></div><div class="eixo"><div class="eixotopo"><strong>Depois da entrega</strong><span>8</span></div><p>suporte e contato com quem executou o servico</p></div><div class="eixo"><div class="eixotopo"><strong>Compromisso declarado</strong><span>7</span></div><p>diz prazo, preco e forma de pagamento antes de voce pedir</p></div></div>
+</div></div>
+
+<div id="s-planilha-sob-medida" class="pagina" style="display:none"><div class="capa"><div class="wrap">
+<div class="tarja"><span>DOSSIÊ SETORIAL Nº 001</span><span>BRASIL · AGOSTO 2026</span><span class="conf">◆ ANÁLISE INDEPENDENTE</span></div>
+<h1>Planilha<br><em>sob medida</em></h1>
+<p class="linhafina">Vinte e cinco empresas rastreadas. Sete abertas linha por linha. Cada
+afirmação aqui foi cruzada em três fontes: o que a empresa declara, o registro público de
+CNPJ e a reputação em canal aberto.</p>
+<div class="chips">
+<span class="chip">RASTREADAS <b>25</b></span>
+<span class="chip">ANALISADAS <b>7</b></span>
+<span class="chip">FONTES CRUZADAS <b>3</b></span>
+<span class="chip">COM NOTA NO GOOGLE <b>3 de 25</b></span>
+<span class="chip">SEM CNPJ LOCALIZADO <b>6 de 25</b></span>
+</div>
+</div></div>
+
+<div class="wrap">
+
+<h2>Alerta</h2>
+<p class="h2sub">Não é sobre nota baixa. É sobre risco de não ter para quem reclamar depois.</p>
+<div class="alerta">
+<div class="carimbo">ATENÇÃO REDOBRADA</div>
+
+<div class="risco">
+<div class="rnome">Planilha Sob Medida <span class="rnota">23 / 100</span></div>
+<ul>
+<li><strong>CNPJ não localizado em seis consultas públicas.</strong> Não há como saber com quem você fecha contrato</li>
+<li><strong>Endereço inválido no próprio cadastro do Reclame Aqui</strong>, preenchido como "AAAAAA/AA"</li>
+<li><strong>Zero por cento dos clientes que reclamaram voltariam a fazer negócio</strong></li>
+<li>Não declara preço, não declara garantia, não diz se o arquivo vem desbloqueado</li>
+</ul>
+<p class="rodape-risco">É a empresa que aparece em primeiro lugar quando você busca "planilha sob medida" no Google.</p>
+</div>
+
+<div class="risco">
+<div class="rnome">The X Lab <span class="rnota">23 / 100</span></div>
+<ul>
+<li><strong>Cobra a partir de R$ 1.000 e não publica CNPJ em lugar nenhum</strong></li>
+<li>Nenhuma reputação pública: sem perfil no Google, sem ficha no Reclame Aqui</li>
+<li>Não declara garantia nem o que acontece se a planilha não atender</li>
+</ul>
+</div>
+
+<div class="risco">
+<div class="rnome">Excel Genial <span class="rnota">32 / 100</span></div>
+<ul>
+<li><strong>Pagamento cem por cento antecipado.</strong> A própria página informa que o prazo só começa a contar depois que o dinheiro cai</li>
+<li><strong>Direito a uma única mudança</strong> depois da entrega, e apenas se for "simples"</li>
+<li>As planilhas vêm com células protegidas, e o desbloqueio depende de instrução da empresa</li>
+</ul>
+</div>
+</div>
+
+<h2>Pódio</h2>
+<p class="h2sub">Pontuação de 0 a 100 em seis eixos, detalhados no fim do dossiê.</p>
+<div class="podio">
+<div class="pod p2">
+<div class="medalha">◆ SEGUNDO LUGAR</div>
+<p class="emp">Ninja do Excel</p>
+<div class="loc">CURITIBA/PR · 11 ANOS · CNPJ ATIVO</div>
+<div class="pts">63</div><div class="de">DE 100</div>
+</div>
+<div class="pod p1">
+<div class="medalha">★ PRIMEIRO LUGAR</div>
+<p class="emp">Academia Excel</p>
+<div class="loc">CASCAVEL/PR · 7 ANOS · CNPJ ATIVO</div>
+<div class="pts">91</div><div class="de">DE 100</div>
+</div>
+<div class="pod p3">
+<div class="medalha">◆ TERCEIRO LUGAR</div>
+<p class="emp">Excel Expert</p>
+<div class="loc">CURITIBA/PR · 18 ANOS · ★ 5,0 COM 294</div>
+<div class="pts">57</div><div class="de">DE 100</div>
+</div>
+</div>
+
+<h2>Fichas</h2>
+<p class="h2sub">Cada linha abaixo foi lida na fonte, não deduzida.</p>
+
+<div class="ficha"><div class="num">01</div><div class="in">
+<div class="cab"><div><p class="emp2">Academia Excel</p><div class="loc2">CNPJ 35.284.569/0001-00 · CASCAVEL/PR · DESDE 2019</div></div>
+<div class="pts2" style="color:var(--ouro)">91</div></div>
+<div class="fontes">
+<span class="fonte g">GOOGLE ★ <b>5,0</b> · <b>150</b> avaliações</span>
+<span class="fonte r">RECLAME AQUI · 1 reclamação · <b>0% respondida</b></span>
+</div>
+<div class="ev">
+<span class="e s">prazo 3 a 4 dias úteis</span><span class="e s">a partir de R$ 300, o menor do setor</span>
+<span class="e s">paga o saldo só depois de aprovar por vídeo</span><span class="e s">30 dias de ajuste ilimitado</span>
+<span class="e s">arquivo sem senha, com direito de revenda</span><span class="e s">22 exemplos no portfólio</span>
+<span class="e s">Excel e Google Sheets</span><span class="e n">reclamação sem resposta há 41 dias</span>
+</div></div></div>
+<div class="ficha"><div class="num">02</div><div class="in">
+<div class="cab"><div><p class="emp2">Ninja do Excel · Grupo Ninja</p><div class="loc2">CNPJ 29.320.577/0001-62 · CURITIBA/PR · MARCA DESDE 2014</div></div>
+<div class="pts2" style="color:var(--verde)">63</div></div>
+<div class="fontes">
+<span class="fonte n">GOOGLE · perfil <b>sem nota</b></span>
+<span class="fonte g">RECLAME AQUI · <b>100% respondidas</b> · 8,6 em 3 anos</span>
+</div>
+<div class="ev">
+<span class="e s">prazo declarado 3 a 4 dias</span><span class="e s">canal B2B próprio, processo em 4 etapas</span>
+<span class="e s">1.141 empresas atendidas</span><span class="e s">entrega com vídeo</span>
+<span class="e n">preço só sob consulta</span><span class="e n">nenhuma avaliação no Google</span>
+<span class="e a">não declara se o arquivo vem desbloqueado</span>
+</div></div></div>
+<div class="ficha"><div class="num">03</div><div class="in">
+<div class="cab"><div><p class="emp2">Excel Expert</p><div class="loc2">CURITIBA/PR · <b>18 ANOS</b> · CNPJ NÃO PUBLICADO PELA EMPRESA</div></div>
+<div class="pts2" style="color:var(--ambar)">57</div></div>
+<div class="fontes">
+<span class="fonte g">GOOGLE ★ <b>5,0</b> · <b>294</b> avaliações</span><span class="fonte n">RECLAME AQUI · <b>sem ficha</b></span>
+</div>
+<div class="ev">
+<span class="e s">segunda maior reputação do setor no Google</span><span class="e s">opera desde 2007</span>
+<span class="e s">projetos in company sob medida</span>
+<span class="e n">não declara prazo nem preço</span><span class="e n">sem formulário de orçamento</span>
+<span class="e a">carro-chefe é treinamento, não encomenda</span>
+</div></div></div>
+<div class="ficha"><div class="num">04</div><div class="in">
+<div class="cab"><div><p class="emp2">Smart Planilhas</p><div class="loc2">CNPJ 41.644.905/0001-81 · SOROCABA/SP · DESDE 2021</div></div>
+<div class="pts2" style="color:var(--ambar)">44</div></div>
+<div class="fontes">
+<span class="fonte g">GOOGLE ★ <b>5,0</b></span>
+<span class="fonte r">RECLAME AQUI · 2 reclamações · <b>50% respondidas</b></span>
+</div>
+<div class="ev">
+<span class="e s">preço em faixas, R$ 600 a R$ 3.000</span><span class="e s">três níveis de projeto declarados</span>
+<span class="e n">não declara prazo</span><span class="e n">não fala em garantia</span>
+<span class="e a">o carro-chefe é a loja de planilhas prontas</span>
+<span class="e a">CNPJ do site diverge do registrado no Reclame Aqui</span>
+</div></div></div>
+<div class="ficha"><div class="num">05</div><div class="in">
+<div class="cab"><div><p class="emp2">Excel Genial</p><div class="loc2">CNPJ 53.794.586/0001-70 · FLORIANÓPOLIS/SC · MARCA DESDE 2019</div></div>
+<div class="pts2" style="color:var(--vermelho)">32</div></div>
+<div class="fontes">
+<span class="fonte n">GOOGLE · <b>sem perfil</b></span><span class="fonte n">RECLAME AQUI · <b>sem ficha</b></span>
+</div>
+<div class="ev">
+<span class="e s">orçamento em 3 dias, entrega em 4 a 6 dias</span>
+<span class="e s">3 depoimentos citam a planilha entregue</span>
+<span class="e n">pagamento 100% antecipado</span><span class="e n">só uma mudança depois de entregue</span>
+<span class="e n">planilhas vêm com células protegidas</span><span class="e n">nenhuma reputação pública</span>
+</div></div></div>
+<div class="ficha"><div class="num">06</div><div class="in">
+<div class="cab"><div><p class="emp2">The X Lab</p><div class="loc2">CNPJ NÃO LOCALIZADO · PROJETOS A PARTIR DE R$ 1.000</div></div>
+<div class="pts2" style="color:var(--vermelho)">23</div></div>
+<div class="fontes">
+<span class="fonte n">GOOGLE · <b>sem perfil</b></span><span class="fonte n">RECLAME AQUI · <b>sem ficha</b></span>
+</div>
+<div class="ev">
+<span class="e s">preço declarado a partir de R$ 1.000</span><span class="e s">prazo 7 a 15 dias úteis</span>
+<span class="e s">encomenda é o carro-chefe, sem modelo pronto</span>
+<span class="e n">CNPJ não localizado</span><span class="e n">nenhuma reputação pública</span>
+<span class="e n">não fala em garantia</span>
+</div></div></div>
+<div class="ficha"><div class="num">07</div><div class="in">
+<div class="cab"><div><p class="emp2">Planilha Sob Medida</p><div class="loc2">SÃO PAULO/SP · <b>10 ANOS</b> · CNPJ NÃO LOCALIZADO</div></div>
+<div class="pts2" style="color:var(--vermelho)">23</div></div>
+<div class="fontes">
+<span class="fonte n">GOOGLE · perfil <b>sem nota</b></span>
+<span class="fonte r">RECLAME AQUI · <b>0% voltariam a comprar</b></span>
+</div>
+<div class="ev">
+<span class="e s">prazo declarado até 7 dias úteis</span><span class="e s">10 anos no ar</span>
+<span class="e s">Excel, Google Sheets e Power BI</span>
+<span class="e n">não declara preço nem garantia</span><span class="e n">CNPJ não localizado</span>
+<span class="e n">endereço inválido no cadastro do Reclame Aqui</span>
+</div></div></div>
+
+<h2>Quadro comparativo</h2>
+<p class="h2sub">Traço significa que a empresa não informa em nenhum lugar do site.</p>
+<table><tr><th>Empresa</th><th class="c">Anos</th><th class="c">Google</th><th class="c">Reclame Aqui</th><th class="c">Prazo</th><th class="c">Preço</th><th class="c">Garantia</th><th class="c">Arquivo livre</th><th class="c">Nota</th></tr>
+<tr class="destaque"><td>Academia Excel</td><td class="c">7</td><td class="c sim">5,0 · 150</td><td class="c nao">1 sem resposta</td><td class="c">3 a 4 dias</td><td class="c sim">R$ 300</td><td class="c sim">30 dias</td><td class="c sim">sim</td><td class="c">91</td></tr>
+<tr><td>Ninja do Excel</td><td class="c">11</td><td class="c vazio">sem nota</td><td class="c sim">100% resp.</td><td class="c">3 a 4 dias</td><td class="c vazio">consulta</td><td class="c vazio">—</td><td class="c vazio">—</td><td class="c">63</td></tr>
+<tr><td>Excel Expert</td><td class="c">18</td><td class="c sim">5,0 · 294</td><td class="c vazio">sem ficha</td><td class="c vazio">—</td><td class="c vazio">—</td><td class="c vazio">—</td><td class="c vazio">—</td><td class="c">57</td></tr>
+<tr><td>Smart Planilhas</td><td class="c">4</td><td class="c sim">5,0</td><td class="c nao">50% resp.</td><td class="c vazio">—</td><td class="c">R$ 600 a 3.000</td><td class="c vazio">—</td><td class="c vazio">—</td><td class="c">44</td></tr>
+<tr><td>Excel Genial</td><td class="c">6</td><td class="c vazio">sem perfil</td><td class="c vazio">sem ficha</td><td class="c">4 a 6 dias</td><td class="c vazio">—</td><td class="c nao">1 ajuste</td><td class="c nao">protegido</td><td class="c">32</td></tr>
+<tr><td>The X Lab</td><td class="c vazio">—</td><td class="c vazio">sem perfil</td><td class="c vazio">sem ficha</td><td class="c">7 a 15 dias</td><td class="c">R$ 1.000</td><td class="c vazio">—</td><td class="c vazio">—</td><td class="c">23</td></tr>
+<tr><td>Planilha Sob Medida</td><td class="c">10</td><td class="c vazio">sem nota</td><td class="c nao">0% voltariam</td><td class="c">7 dias</td><td class="c vazio">—</td><td class="c vazio">—</td><td class="c vazio">—</td><td class="c">23</td></tr></table>
+
+<h2>Quanto custa</h2>
+<p class="h2sub">Seis das 25 empresas declaram valor. As outras dezenove só informam sob consulta.</p>
+<table>
+<tr><th>Empresa</th><th class="c">Ponto de partida</th><th class="c">Faixa declarada</th><th class="c">Prazo</th></tr>
+<tr class="destaque"><td>Academia Excel</td><td class="c">R$ 300</td><td class="c vazio">depende do escopo</td><td class="c">3 a 4 dias</td></tr>
+<tr><td>Excel Solução</td><td class="c">R$ 100</td><td class="c">R$ 100 a 900</td><td class="c vazio">—</td></tr>
+<tr><td>Inovar.net</td><td class="c">R$ 450</td><td class="c vazio">—</td><td class="c vazio">—</td></tr>
+<tr><td>Dashboard Academy</td><td class="c">R$ 600</td><td class="c">R$ 600 a 3.600+</td><td class="c vazio">—</td></tr>
+<tr><td>Smart Planilhas</td><td class="c">R$ 600</td><td class="c">R$ 600 a 3.000</td><td class="c vazio">—</td></tr>
+<tr><td>The X Lab</td><td class="c">R$ 1.000</td><td class="c vazio">—</td><td class="c">7 a 15 dias</td></tr>
+</table>
+
+<h2>Fora do dossiê</h2>
+<p class="h2sub">Empresas rastreadas que não entram neste ranking, e o motivo.</p>
+<div class="fora"><ul>
+<li><strong>Hashtag Treinamentos</strong> — não vende planilha sob encomenda. Vende curso e distribui modelos prontos. Tem a maior reputação do setor de Excel, com selo RA1000 e 91,9% de solução, mas em outro serviço.</li>
+<li><strong>Doutores do Excel</strong> — a página inicial é assinatura de curso e a página de consultoria não responde. Não foi possível comprovar venda de encomenda.</li>
+<li><strong>Pro Inove</strong> — vende sob medida, mas só atende empresa com faturamento acima de R$ 100 milhões.</li>
+<li><strong>PrimeSolution</strong> — software house corporativa. A página de Excel VBA não abriu em quatro tentativas.</li>
+<li><strong>Planilhas.VC</strong> — encerrou. O domínio foi tomado e hoje serve outro conteúdo.</li>
+<li><strong>Planify, Excel Solução, Inovar.net, Dashboard Academy, Training Excel, Max Planilhas, Planilhas Kaizen, CAQO</strong> e mais oito — rastreadas, análise dos seis eixos em andamento.</li>
+</ul></div>
+
+<h2>Como a nota é calculada</h2>
+<p class="h2sub">A fórmula é pública e a mesma para todas.</p>
+<div class="metodo">
+<table>
+<tr><td><strong>Reputação verificável</strong><br><span style="color:var(--fraco);font-size:12.5px">nota e volume de avaliações no Google, resposta e solução no Reclame Aqui</span></td><td>30</td></tr>
+<tr><td><strong>Solidez</strong><br><span style="color:var(--fraco);font-size:12.5px">CNPJ ativo, tempo de operação, endereço e responsável identificado</span></td><td>22</td></tr>
+<tr><td><strong>Proteção do comprador</strong><br><span style="color:var(--fraco);font-size:12.5px">escopo por escrito, aprovação antes de pagar tudo, garantia de ajuste</span></td><td>20</td></tr>
+<tr><td><strong>Você fica dono</strong><br><span style="color:var(--fraco);font-size:12.5px">o que você recebe é seu, sem senha e sem trava</span></td><td>13</td></tr>
+<tr><td><strong>Depois da entrega</strong><br><span style="color:var(--fraco);font-size:12.5px">suporte e contato com quem executou o serviço</span></td><td>8</td></tr>
+<tr><td><strong>Compromisso declarado</strong><br><span style="color:var(--fraco);font-size:12.5px">diz prazo, preço e forma de pagamento antes de você pedir</span></td><td>7</td></tr>
+</table>
+</div>
+<div class="nota-rodape">
+Dados coletados em agosto de 2026 em consultas públicas de CNPJ, perfis do Google, fichas do
+Reclame Aqui e nas páginas das empresas. Podem ter mudado desde então. Nenhuma empresa paga
+para aparecer neste dossiê, e a posição não é negociável. Empresa que discordar de qualquer
+informação pode pedir correção, e o pedido fica registrado nesta página.
+</div>
+
+
+<div class="wrap"><p style="margin-top:8px"><a class="voltar" href="#/">← TODOS OS SETORES</a></p></div></div>
+
+<div id="s-criacao-de-site-e-loja-virtual" class="pagina" style="display:none">
+<div class="capa"><div class="wrap">
+<div class="tarja"><span>DOSSIE SETORIAL</span><span>BRASIL · AGOSTO 2026</span><span class="conf">◆ EM ABERTO</span></div>
+<h1>Criacao de site e loja virtual</h1><p class="linhafina">Quem desenvolve site institucional, landing page e e-commerce sob encomenda. Milhares de fornecedores, do freelancer a agencia, e quase nenhuma transparencia de preco e prazo.</p></div></div>
+<div class="wrap"><div class="alerta" style="border-color:var(--linha);background:var(--painel)">
+<div class="carimbo" style="border-color:var(--ambar);color:var(--ambar)">DOSSIE EM ABERTO</div>
+<p style="font-size:14.5px;margin:0">Este setor ja esta na fila. Estamos rastreando as empresas, conferindo CNPJ em registro publico e levantando reputacao no Google e no Reclame Aqui.</p>
+<p style="font-size:13.5px;color:var(--fraco);margin:10px 0 0">Um dossie so e publicado quando cada afirmacao tiver sido confirmada em pelo menos duas fontes. Ate la ele fica aqui, aberto e sem nota.</p>
+</div><p style="margin-top:26px"><a class="voltar" href="#/">← TODOS OS SETORES</a></p></div></div><div id="s-agencia-de-trafego-pago" class="pagina" style="display:none">
+<div class="capa"><div class="wrap">
+<div class="tarja"><span>DOSSIE SETORIAL</span><span>BRASIL · AGOSTO 2026</span><span class="conf">◆ EM ABERTO</span></div>
+<h1>Agencia de trafego pago</h1><p class="linhafina">Quem gerencia anuncio no Google e nas redes por mensalidade. Setor onde a promessa e facil de fazer e dificil de verificar, e onde o contrato costuma esconder de quem e a conta de anuncio.</p></div></div>
+<div class="wrap"><div class="alerta" style="border-color:var(--linha);background:var(--painel)">
+<div class="carimbo" style="border-color:var(--ambar);color:var(--ambar)">DOSSIE EM ABERTO</div>
+<p style="font-size:14.5px;margin:0">Este setor ja esta na fila. Estamos rastreando as empresas, conferindo CNPJ em registro publico e levantando reputacao no Google e no Reclame Aqui.</p>
+<p style="font-size:13.5px;color:var(--fraco);margin:10px 0 0">Um dossie so e publicado quando cada afirmacao tiver sido confirmada em pelo menos duas fontes. Ate la ele fica aqui, aberto e sem nota.</p>
+</div><p style="margin-top:26px"><a class="voltar" href="#/">← TODOS OS SETORES</a></p></div></div><div id="s-contabilidade-online" class="pagina" style="display:none">
+<div class="capa"><div class="wrap">
+<div class="tarja"><span>DOSSIE SETORIAL</span><span>BRASIL · AGOSTO 2026</span><span class="conf">◆ EM ABERTO</span></div>
+<h1>Contabilidade online</h1><p class="linhafina">Escritorios que atendem a distancia por mensalidade. Decisao que trava o empresario por anos, com multa e imposto em jogo, e onde a diferenca entre planos raramente esta clara.</p></div></div>
+<div class="wrap"><div class="alerta" style="border-color:var(--linha);background:var(--painel)">
+<div class="carimbo" style="border-color:var(--ambar);color:var(--ambar)">DOSSIE EM ABERTO</div>
+<p style="font-size:14.5px;margin:0">Este setor ja esta na fila. Estamos rastreando as empresas, conferindo CNPJ em registro publico e levantando reputacao no Google e no Reclame Aqui.</p>
+<p style="font-size:13.5px;color:var(--fraco);margin:10px 0 0">Um dossie so e publicado quando cada afirmacao tiver sido confirmada em pelo menos duas fontes. Ate la ele fica aqui, aberto e sem nota.</p>
+</div><p style="margin-top:26px"><a class="voltar" href="#/">← TODOS OS SETORES</a></p></div></div><div id="s-empresa-de-mudanca" class="pagina" style="display:none">
+<div class="capa"><div class="wrap">
+<div class="tarja"><span>DOSSIE SETORIAL</span><span>BRASIL · AGOSTO 2026</span><span class="conf">◆ EM ABERTO</span></div>
+<h1>Empresa de mudanca residencial</h1><p class="linhafina">Quem transporta a casa inteira de um endereco para outro. Bem de alto valor na mao de terceiro, e seguro que quase ninguem explica antes de fechar.</p></div></div>
+<div class="wrap"><div class="alerta" style="border-color:var(--linha);background:var(--painel)">
+<div class="carimbo" style="border-color:var(--ambar);color:var(--ambar)">DOSSIE EM ABERTO</div>
+<p style="font-size:14.5px;margin:0">Este setor ja esta na fila. Estamos rastreando as empresas, conferindo CNPJ em registro publico e levantando reputacao no Google e no Reclame Aqui.</p>
+<p style="font-size:13.5px;color:var(--fraco);margin:10px 0 0">Um dossie so e publicado quando cada afirmacao tiver sido confirmada em pelo menos duas fontes. Ate la ele fica aqui, aberto e sem nota.</p>
+</div><p style="margin-top:26px"><a class="voltar" href="#/">← TODOS OS SETORES</a></p></div></div><div id="s-energia-solar-residencial" class="pagina" style="display:none">
+<div class="capa"><div class="wrap">
+<div class="tarja"><span>DOSSIE SETORIAL</span><span>BRASIL · AGOSTO 2026</span><span class="conf">◆ EM ABERTO</span></div>
+<h1>Energia solar residencial</h1><p class="linhafina">Quem projeta e instala painel solar em casa. Investimento acima de R$ 20 mil, com retorno dificil de conferir e garantia que varia de 1 a 25 anos conforme o componente.</p></div></div>
+<div class="wrap"><div class="alerta" style="border-color:var(--linha);background:var(--painel)">
+<div class="carimbo" style="border-color:var(--ambar);color:var(--ambar)">DOSSIE EM ABERTO</div>
+<p style="font-size:14.5px;margin:0">Este setor ja esta na fila. Estamos rastreando as empresas, conferindo CNPJ em registro publico e levantando reputacao no Google e no Reclame Aqui.</p>
+<p style="font-size:13.5px;color:var(--fraco);margin:10px 0 0">Um dossie so e publicado quando cada afirmacao tiver sido confirmada em pelo menos duas fontes. Ate la ele fica aqui, aberto e sem nota.</p>
+</div><p style="margin-top:26px"><a class="voltar" href="#/">← TODOS OS SETORES</a></p></div></div>
+
+<div class="rodapesite"><div class="in">
+<strong style="color:var(--texto)">Setorial Brasil</strong> reune dados publicos para ajudar quem precisa contratar um servico. Cada afirmacao e cruzada em tres fontes: o que a empresa declara, o registro publico de CNPJ e a reputacao em canal aberto.
+Nenhuma empresa paga para aparecer, e a posicao nao e negociavel. Os dados podem mudar depois da coleta. Empresa que discordar de qualquer informacao pode pedir correcao, e o pedido fica registrado na pagina do setor.
+</div></div>
+
+<script>
+function setq(v){document.getElementById('q').value=v;filtra();}
+function filtra(){
+  var q=(document.getElementById('q').value||'').toLowerCase().trim();
+  document.querySelectorAll('#lista .card').forEach(function(c){
+    c.style.display=(!q||(c.dataset.busca||'').indexOf(q)>=0)?'block':'none';});
+  document.querySelectorAll('#lista .secao').forEach(function(h){
+    var g=h.nextElementSibling;
+    if(g&&g.classList.contains('grid')){
+      var vis=[].slice.call(g.children).some(function(c){return c.style.display!=='none';});
+      h.style.display=vis?'flex':'none'; g.style.display=vis?'grid':'none';}});
+}
+function rota(){
+  var h=location.hash.replace('#/','');
+  document.querySelectorAll('.pagina').forEach(function(p){p.style.display='none';});
+  var alvo=h.indexOf('br/')===0?document.getElementById('s-'+h.slice(3)):null;
+  (alvo||document.getElementById('home')).style.display='block';
+  window.scrollTo(0,0);
+}
+document.getElementById('q').addEventListener('input',filtra);
+window.addEventListener('hashchange',rota); rota();
+</script></body></html>
