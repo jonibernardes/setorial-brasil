@@ -1,0 +1,28 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&family=JetBrains+Mono:wght@400;700&family=Inter:wght@400;500;600;700&display=swap');
+@tailwind base; @tailwind components; @tailwind utilities;
+
+:root{
+  --bg:#0b0f14; --painel:#121821; --linha:#1e2733; --texto:#dbe3ec; --fraco:#7b8a9b;
+  --ouro:#d9a441; --prata:#aeb9c6; --bronze:#b0764a;
+  --vermelho:#e0524f; --verde:#3fa96b; --ambar:#e0a83c;
+}
+html,body,#root{background:var(--bg);color:var(--texto);min-height:100%}
+body{font-family:'Inter',system-ui,sans-serif;line-height:1.6;margin:0}
+.display{font-family:'Oswald',sans-serif;letter-spacing:.02em}
+.mono{font-family:'JetBrains Mono',monospace}
+.grade{background:
+  repeating-linear-gradient(90deg,transparent,transparent 2px,rgba(255,255,255,.012) 2px,rgba(255,255,255,.012) 4px),
+  radial-gradient(900px 320px at 18% -30%,rgba(217,164,65,.13),transparent);}
+.tarja{border-bottom:1px solid var(--linha)}
+.painel{background:var(--painel);border:1px solid var(--linha)}
+.chip{border:1px solid var(--linha);background:rgba(255,255,255,.02)}
+.carimbo{border:2px solid var(--vermelho);color:var(--vermelho);transform:rotate(-2.2deg)}
+.h2linha:after{content:'';flex:1;height:1px;background:var(--linha)}
+.e-sim{border-color:#1e3a2a;color:#79c79b;background:rgba(63,169,107,.06)}
+.e-nao{border-color:#3d1f1e;color:#e08d8a;background:rgba(224,82,79,.06)}
+.e-aviso{border-color:#3c3018;color:#dbb264;background:rgba(224,168,60,.06)}
+.f-bom{border-color:#1e3a2a;background:rgba(63,169,107,.07)}
+.f-ruim{border-color:#3d1f1e;background:rgba(224,82,79,.07);color:#e6a9a7}
+.f-vazio{opacity:.55}
+input::placeholder{color:#5b6b7c}
+a{color:inherit;text-decoration:none}
